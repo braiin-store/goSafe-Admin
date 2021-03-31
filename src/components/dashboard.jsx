@@ -3,14 +3,7 @@ import React from 'react';
 import { Menu, ChevronLeft } from '@material-ui/icons'
 
 import {
-    List,
-    Drawer,
-    AppBar,
-    Toolbar,
-    Divider,
-    Container,
-    IconButton,
-    CssBaseline,
+    List, Drawer, AppBar, Toolbar, Divider, Container, IconButton, CssBaseline
 } from '@material-ui/core'
 
 import { useStyles } from './styles';
@@ -19,8 +12,7 @@ import { mainListItems } from './listItems';
 const Dashboard = ({ child }) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
-    // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+    
     return (
         <div className={classes.root}>
             <CssBaseline />

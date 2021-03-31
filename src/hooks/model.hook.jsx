@@ -1,5 +1,28 @@
-import Swal from 'sweetalert2';
 import React from 'react'
+import Swal from 'sweetalert2';
+
+export const URL = "http://localhost:8000/api";
+
+const isImage = path => {
+    const regex = /\.(jpe?g|png|gif|bmp)$/i;
+    return regex.test(path) || !path;
+}
+
+export const useFileRead = (imgName, { model, setImg }) => {
+    let input = document.getElementById('img')
+    if (isImage(input.value)) {
+        let reader = new FileReader()
+
+        reader.onload = ({ target }) => {
+            setImg(model[imgName] = target.result)
+            console.log(model);
+        };
+
+        reader.readAsDataURL(input.files[0])
+    } else {
+        alert('Archivo No válido')
+    }
+}
 
 export const useFetch = (url, { reload, setReload }) => {
     const [rows, setRows] = React.useState([]);
@@ -15,7 +38,7 @@ export const useFetch = (url, { reload, setReload }) => {
     return rows;
 }
 
-export const save = async (url, { model, setOpen, setReload }) => {
+export const useSave = async (url, { model, setOpen, setReload }) => {
     try {
         let res = await fetch(`${url}/${model.id ?? ''}`, {
             method: model.id ? "PUT" : "POST",
@@ -32,7 +55,7 @@ export const save = async (url, { model, setOpen, setReload }) => {
         console.log(await res.json())
 
         await Swal.fire({
-            timer: 1000,
+            timer: 1300,
             icon: 'success',
             title: 'Guardado !!',
             text: 'Guardado Correctamente!',
@@ -48,8 +71,7 @@ export const save = async (url, { model, setOpen, setReload }) => {
     }
 }
 
-export const destroy = async (url, setReload) => {
-
+export const useDelete = async (url, { public_id, setReload }) => {
     let result = await Swal.fire({
         icon: 'warning',
         title: 'Está seguro?',
@@ -62,13 +84,16 @@ export const destroy = async (url, setReload) => {
     if (!result.isConfirmed) return;
 
     try {
-        let res = await fetch(url, { method: "DELETE" })
+        let res = await fetch(url, {
+            method: "DELETE",
+            headers: { public_id },
+        })
 
         setReload(true)
         console.log(await res.json());
 
         await Swal.fire({
-            timer: 1000,
+            timer: 1300,
             icon: 'success',
             title: 'Eliminado !',
             text: 'Se eliminó Correctamente',

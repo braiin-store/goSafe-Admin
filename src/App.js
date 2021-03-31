@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Dashboard from './components/dashboard'
 
-import ClientePage from './pages/cliente'
+import ClientePage from './pages/clientePage'
 import ConductorPage from './pages/conductor'
 
 const app = () => {
