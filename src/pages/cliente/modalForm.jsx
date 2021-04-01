@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import {
     Save, Face, Email, Phone, Directions, Replay
@@ -9,16 +9,12 @@ import {
     Fade, Grid, Backdrop, Modal, TextField, Typography, Button, CardMedia
 } from '@material-ui/core'
 
-import './cliente.css'
-import { URL, useSave, useFileRead } from '../../hooks/model.hook'
+import { URL, useSave, useFileRead } from '../../hooks/modelHook'
 
 const Form = ({ model = {}, setOpen, setReload }) => {
     const [img, setImg] = useState(model['foto'] ?? '')
-    const onInput = ({ target: { name, value } }) => {
-        model[name] = value
-        console.log(model);
-    };
 
+    const onInput = ({ target: { name, value } }) => model[name] = value
     const onSubmit = async (e) => {
         e.preventDefault()
         await useSave(`${URL}/clientes`, { model, setOpen, setReload })

@@ -1,5 +1,6 @@
-import React from 'react'
 import Swal from 'sweetalert2';
+
+import { useState, useEffect } from 'react'
 
 export const URL = "http://localhost:8000/api";
 
@@ -15,7 +16,6 @@ export const useFileRead = (imgName, { model, setImg }) => {
 
         reader.onload = ({ target }) => {
             setImg(model[imgName] = target.result)
-            console.log(model);
         };
 
         reader.readAsDataURL(input.files[0])
@@ -25,8 +25,8 @@ export const useFileRead = (imgName, { model, setImg }) => {
 }
 
 export const useFetch = (url, { reload, setReload }) => {
-    const [rows, setRows] = React.useState([]);
-    React.useEffect(() => {
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
         if (reload) {
             setReload(false)
             fetch(url)
@@ -77,8 +77,8 @@ export const useDelete = async (url, { public_id, setReload }) => {
         title: 'Está seguro?',
         text: 'No podrá deshacer los cambios',
         showCancelButton: true,
-        cancelButtonText: 'No...',
-        confirmButtonText: 'Si !',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si',
     });
 
     if (!result.isConfirmed) return;

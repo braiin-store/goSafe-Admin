@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Add } from '@material-ui/icons'
 import { Grid, Button, Typography, Paper } from '@material-ui/core'
 
+import './cliente/styles.css'
+
 import Datatable from './cliente/dataTable'
 import ModalForm from './cliente/modalForm'
-import { URL, useFetch } from '../hooks/model.hook'
+
+import { URL, useFetch } from '../hooks/modelHook'
 
 const ClientePage = () => {
     const [open, setOpen] = useState(false);

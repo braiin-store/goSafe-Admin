@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useState } from 'react'
 import DataTable from 'react-data-table-component'
 
-import { Button, ButtonGroup } from '@material-ui/core'
+import { useState } from 'react'
+
+import { Button, ButtonGroup, Switch } from '@material-ui/core'
 import { ArrowDownward, Delete, Edit } from '@material-ui/icons'
 
-import './cliente.css'
 import ModalForm from './modalForm'
-import { URL, useDelete } from '../../hooks/model.hook'
+
+import { URL, useDelete } from '../../hooks/modelHook'
 
 const cols = [
     ['id', '3%'],
@@ -19,33 +20,54 @@ const cols = [
     ['estado', '15%'],
 ];
 
-const columns = ({ setOpen, setModel, setReload }) => {
-    let columns = cols.map(col => {
-        let json = {
-            name: col[0],
-            width: col[1],
-            selector: col[0],
-            sortable: true,
-            allowOverflow: true,
-            center: col[0] === 'foto' || col[0] === 'direccion' || col[0] === 'estado',
-            grow: 0,
-            cell: col[0] === 'foto'
-                ? ({ foto }) => <img height={35} src={foto} />
-                : null
-        }
+const SwitchCell = ({ model: { id, estado } }) => {
+    const [active, setActive] = useState(estado)
 
-        return json;
-    });
+    return <Switch
+        checked={active}
+        title={active ? "Dar de Baja" : "Dar de Alta"}
+        onChange={async () => {
+            try {
+                setActive(!active)
+                await fetch(`${URL}/clientes/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Accept": "Application/json",
+                        "Content-Type": "Application/json",
+                    },
+                    body: JSON.stringify({ estado: !active })
+                })
+            } catch (error) {
+                console.error(error)
+            }
+        }}
+    />
+}
+
+const columns = ({ setOpen, setModel, setReload }) => {
+    let columns = cols.map(col => ({
+        name: col[0],
+        width: col[1],
+        selector: col[0],
+        sortable: true,
+        allowOverflow: true,
+        center: col[0] === 'foto' || col[0] === 'direccion' || col[0] === 'estado',
+        grow: 0,
+        cell: col[0] === 'foto'
+            ? ({ foto }) => <img height={35} src={foto} />
+            : col[0] === 'estado'
+                ? (row) => <SwitchCell model={row} />
+                : null
+    }));
 
     columns.push({
         width: '15%',
         name: 'Acción',
         center: true,
         button: true,
-        compact: false,
         allowOverflow: true,
-        cell: (row) => <>
-            <ButtonGroup variant="outlined" size="medium">
+        cell: (row) => (
+            <ButtonGroup variant="outlined" size="large">
                 <Button
                     title="Editar"
                     style={{ color: 'green' }}
@@ -64,7 +86,7 @@ const columns = ({ setOpen, setModel, setReload }) => {
                     })}
                 ><Delete fontSize="inherit" /></Button>
             </ButtonGroup>
-        </>,
+        ),
     });
 
     return columns;
