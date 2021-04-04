@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 
 const drawerWidth = 240;
-export const useStyles = makeStyles((theme) => ({
+
+const styles = makeStyles((theme) => ({
     modal: {
         display: 'flex',
         justifyContent: 'center',
@@ -84,3 +85,5 @@ export const useStyles = makeStyles((theme) => ({
         height: 240,
     },
 }));
+
+export default styles

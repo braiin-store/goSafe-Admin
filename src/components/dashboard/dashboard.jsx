@@ -1,33 +1,31 @@
-import clsx from 'clsx';
-import React from 'react';
+import clsx from 'clsx'
+
+import { useState } from 'react'
 import { Menu, ChevronLeft } from '@material-ui/icons'
+import { List, Drawer, AppBar, Toolbar, Divider, Container, IconButton, CssBaseline, Button } from '@material-ui/core'
 
-import {
-    List, Drawer, AppBar, Toolbar, Divider, Container, IconButton, CssBaseline
-} from '@material-ui/core'
+import './dashboard.css'
 
-import { useStyles } from './styles';
-import { mainListItems } from './listItems';
+import MenuList from '../MenuList'
+import useStyles from './dashboard.style'
 
 const Dashboard = ({ child }) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-    
+    const [open, setOpen] = useState(false);
+
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+            <AppBar position="fixed" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
+                        edge="start" color="inherit"
                         onClick={() => setOpen(true)}
                         className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
                         <Menu />
                     </IconButton>
-                    <h2>Dashboard</h2>
+                    <h2>GoSafe Panel</h2>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -41,7 +39,7 @@ const Dashboard = ({ child }) => {
                     </IconButton>
                 </div>
                 <Divider />
-                <List>{mainListItems}</List>
+                <List component={MenuList} />
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />

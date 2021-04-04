@@ -1,0 +1,28 @@
+.item > * {
+    color: #BDBDBD !important;
+    transition: transform .2s !important;
+}
+
+.active > * {
+    color: #6AD098 !important;
+
+    transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+}
+
+.item:hover > * {
+    color: #6AD098 !important;
+    
+    transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+}
+
+.item-text > * {
+    text-transform: uppercase;
+    font-size: small !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    font-family: 'Righteous', cursive !important;
+}
