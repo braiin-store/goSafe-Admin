@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react'
 
 import {
@@ -9,23 +8,29 @@ import {
     Fade, Grid, Backdrop, Modal, TextField, Typography, Button, CardMedia
 } from '@material-ui/core'
 
-import { URL, useSave, useFileRead } from '../../hooks/modelHook'
+import { URL, save, readFile } from '../../utils/formUtils'
 
-const Form = ({ model = {}, setOpen, setReload }) => {
+const Form = ({ model = {}, handlePage, closeModal }) => {
     const [img, setImg] = useState(model['foto'] ?? '')
 
     const onInput = ({ target: { name, value } }) => model[name] = value
+    
     const onSubmit = async (e) => {
         e.preventDefault()
-        await useSave(`${URL}/clientes`, { model, setOpen, setReload })
+        if (img) {
+            model['foto'] = img
+            await save(`${URL}/clientes`, { model, reloadPage: handlePage })
+        }
     }
 
     return (
         <form onSubmit={onSubmit}>
             <Grid container direction="row" spacing={1} justify="center">
                 <input
-                    hidden type="file" name="foto" id="img"
-                    onInput={(e) => useFileRead(e.target.name, { model, setImg })}
+                    hidden
+                    type="file"
+                    id="img" name="foto"
+                    onInput={({ target }) => readFile(target, { model, setImg, closeModal })}
                 />
                 <Grid item xs={12}>
                     <Typography
@@ -44,8 +49,8 @@ const Form = ({ model = {}, setOpen, setReload }) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        fullWidth
                         required
+                        fullWidth
                         type="text"
                         name="nombre"
                         label="Nombre"
@@ -71,6 +76,7 @@ const Form = ({ model = {}, setOpen, setReload }) => {
                 <Grid item xs={5}>
                     <TextField
                         required
+                        fullWidth
                         type="tel"
                         name="celular"
                         label="Celular"
@@ -106,18 +112,20 @@ const Form = ({ model = {}, setOpen, setReload }) => {
                             ? null
                             : <Grid item>
                                 <Button
+                                    disableElevation
                                     type="reset"
                                     color="default"
                                     variant="contained"
                                     startIcon={<Replay />}
+                                    onClick={() => setImg('')}
                                 >Limpiar</Button>
                             </Grid>
                     }
                     <Grid item>
                         <Button
+                            disableElevation
                             type="submit"
                             color="primary"
-                            style={{ background: model['id'] ? 'green' : null }}
                             variant="contained"
                             startIcon={<Save />}
                         >Guardar</Button>
@@ -128,20 +136,26 @@ const Form = ({ model = {}, setOpen, setReload }) => {
     );
 }
 
-const ModalForm = ({ model = {}, open, setOpen, setReload }) => {
+const ModalForm = ({ open, model, reloadPage, closeModal }) => {
+
+    const handlePage = () => {
+        reloadPage()
+        closeModal()
+    }
+
     return (
         <Modal
-            closeAfterTransition
-            open={open}
             className="modal"
+            closeAfterTransition
+
+            open={open}
+            onClose={closeModal}
             BackdropComponent={Backdrop}
             BackdropProps={{ timeout: 300 }}
-
-            onClose={() => setOpen(false)}
         >
             <Fade in={open}>
                 <div className="paper">
-                    <Form setOpen={setOpen} setReload={setReload} model={model} />
+                    <Form model={model} handlePage={handlePage} closeModal={closeModal} />
                 </div>
             </Fade>
         </Modal>
