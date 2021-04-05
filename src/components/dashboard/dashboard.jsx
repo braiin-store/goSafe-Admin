@@ -2,7 +2,7 @@ import clsx from 'clsx'
 
 import { useState } from 'react'
 import { Menu, ChevronLeft } from '@material-ui/icons'
-import { List, Drawer, AppBar, Toolbar, Divider, Container, IconButton, CssBaseline, Button } from '@material-ui/core'
+import { List, Drawer, AppBar, Toolbar, Divider, Container, IconButton, CssBaseline } from '@material-ui/core'
 
 import './dashboard.css'
 

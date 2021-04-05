@@ -1,0 +1,41 @@
+.MuiTableRow-root {
+    height: 80% !important;
+}
+
+.MuiTableRow-root:hover {
+    background-color: whitesmoke !important;
+}
+
+.badge {
+    opacity: .8 !important;
+    height: 27px !important;
+    color: whitesmoke !important;
+    border-radius: 50px !important;
+    text-transform: capitalize !important;
+}
+
+.modal {
+    display: flex !important;
+    overflow: scroll;
+    align-items: center;
+    justify-content: center;
+}
+
+.paper {
+    width: 500px;
+    outline: none;
+    overflow-x: hidden;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.media {
+    height: 13rem;
+    height: 13rem;
+    cursor: pointer;
+    border-radius: 40%;
+    object-fit: scale-down;
+    border: 3px dashed grey;
+    background-color: whitesmoke;
+}

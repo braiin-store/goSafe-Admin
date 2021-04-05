@@ -1,117 +1,148 @@
 /* eslint-disable jsx-a11y/alt-text */
-import DataTable from 'react-data-table-component'
+import MaterialTable from 'material-table'
 
 import { useState } from 'react'
 
-import { Button, ButtonGroup, Switch } from '@material-ui/core'
-import { ArrowDownward, Delete, Edit } from '@material-ui/icons'
+import { ToggleButton } from '@material-ui/lab'
+import { Button, ButtonGroup } from '@material-ui/core'
+import { Delete, Edit, Visibility } from '@material-ui/icons'
 
 import ModalForm from './modalForm'
-
-import { URL, useDelete } from '../../hooks/modelHook'
+import { useModal } from '../../hooks/stateHook'
+import { URL, destroy } from '../../utils/formUtils'
+import { options, tableIcons } from '../../utils/tableSettings'
 
 const cols = [
-    ['id', '3%'],
-    ['foto', '15%'],
-    ['nombre', '10%'],
-    ['correo', '13%'],
-    ['celular', '8%'],
-    ['direccion', '15%'],
-    ['estado', '15%'],
-];
+    'id',
+    'foto',
+    'nombre',
+    'correo',
+    'celular',
+    'direccion',
+    'estado',
+]
 
-const SwitchCell = ({ model: { id, estado } }) => {
-    const [active, setActive] = useState(estado)
+const StateButton = ({ id, estado }) => {
+    const changeState = async () => {
+        let button = document.getElementById(id)
+        let span = button.children[0]
 
-    return <Switch
-        checked={active}
-        title={active ? "Dar de Baja" : "Dar de Alta"}
-        onChange={async () => {
-            try {
-                setActive(!active)
-                await fetch(`${URL}/clientes/${id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Accept": "Application/json",
-                        "Content-Type": "Application/json",
-                    },
-                    body: JSON.stringify({ estado: !active })
-                })
-            } catch (error) {
-                console.error(error)
-            }
-        }}
-    />
+        estado = !estado
+
+        await fetch(`${URL}/clientes/${id}`, {
+            method: "PUT",
+            headers: {
+                "Accept": "Application/json",
+                "Content-Type": "Application/json",
+            },
+            body: JSON.stringify({ estado })
+        })
+
+        if (estado) {
+            button.style.backgroundColor = 'green'
+            button.title = "Dar de Baja"
+            span.innerHTML = 'activo'
+        } else {
+            button.style.backgroundColor = 'red'
+            button.title = "Dar de Alta"
+            span.innerHTML = 'inactivo'
+        }
+    }
+    return (
+        <ToggleButton
+            id={id}
+            className="badge"
+            value={`${estado}`}
+            title={estado ? "Dar de Baja" : "Dar de Alta"}
+            style={{ backgroundColor: `${estado ? 'green' : 'red'}` }}
+            onClick={changeState}
+        >
+            {`${estado ? 'activo' : 'inactivo'}`}
+        </ToggleButton>
+    )
+
 }
 
-const columns = ({ setOpen, setModel, setReload }) => {
-    let columns = cols.map(col => ({
-        name: col[0],
-        width: col[1],
-        selector: col[0],
-        sortable: true,
-        allowOverflow: true,
-        center: col[0] === 'foto' || col[0] === 'direccion' || col[0] === 'estado',
-        grow: 0,
-        cell: col[0] === 'foto'
-            ? ({ foto }) => <img height={35} src={foto} />
-            : col[0] === 'estado'
-                ? (row) => <SwitchCell model={row} />
-                : null
-    }));
+const columns = ({ openModal, reloadPage }) => {
+    let tmp = cols.map(col => {
+        let obj = { title: col, field: col }
 
-    columns.push({
-        width: '15%',
-        name: 'Acción',
-        center: true,
-        button: true,
-        allowOverflow: true,
-        cell: (row) => (
+        if (col === 'foto') {
+            obj.align = 'left'
+            obj.searchable = false
+            obj.render = ({ foto }) => (
+                <img
+                    src={foto}
+                    height="45" loading="lazy"
+                    style={{ borderRadius: '40%' }}
+                />
+            )
+        }
+
+        if (col === 'estado') {
+            obj.searchable = false
+            obj.render = ({ id, estado }) => <StateButton id={id} estado={estado} />
+        }
+
+        return obj
+    })
+
+    tmp.push({
+        title: 'Acción',
+        align: 'center',
+        render: (row) => (
             <ButtonGroup variant="outlined" size="large">
                 <Button
-                    title="Editar"
-                    style={{ color: 'green' }}
-                    onClick={() => {
-                        setModel(row)
-                        setOpen(true)
-                    }}
-                >
-                    <Edit fontSize="inherit" />
-                </Button>
+                    title="Ver Detalle"
+                    style={{ color: '#1876D2' }}
+                    onClick={() => alert(JSON.stringify(row))}
+                    children={[<Visibility fontSize="small" />]}
+                />
+                <Button
+                    title="Editar" color="primary"
+                    onClick={() => openModal(row)}
+                    children={[<Edit fontSize="small" />]}
+                />
                 <Button
                     title="Eliminar"
-                    style={{ color: 'red' }}
-                    onClick={async () => await useDelete(`${URL}/clientes/${row.id}`, {
-                        public_id: row.public_id, setReload
-                    })}
-                ><Delete fontSize="inherit" /></Button>
+                    style={{ color: '#F44336' }}
+                    onClick={async () => { await destroy(`${URL}/clientes/${row.id}`, { reloadPage, public_id: row.public_id, }) }}
+                    children={[<Delete fontSize="small" />]}
+                />
             </ButtonGroup>
-        ),
-    });
+        )
+    })
 
-    return columns;
+    return tmp
 }
 
-const CustomDataTable = ({ rows, setReload }) => {
+const DataTable = ({ rows, reloadPage }) => {
     const [model, setModel] = useState({})
-    const [open, setOpen] = useState(false)
+    const { open, openModal, closeModal } = useModal()
 
-    return <>
-        <DataTable
-            pagination
-            highlightOnHover
-            title="Lista de Clientes"
-            columns={columns({ setOpen, setModel, setReload })}
-            data={rows}
-            sortIcon={<ArrowDownward />}
-        />
-        <ModalForm
-            model={model}
-            open={open}
-            setOpen={setOpen}
-            setReload={setReload}
-        />
-    </>;
+    const handleModal = row => {
+        setModel(row)
+        openModal()
+    }
+
+    return (
+        <>
+            <MaterialTable
+                title="Clientes"
+                style={{ paddingLeft: 10, paddingRight: 10 }}
+                columns={columns({ openModal: handleModal, reloadPage })}
+                data={rows}
+                options={options}
+                icons={tableIcons}
+            />
+            <ModalForm
+                open={open}
+                model={model}
+                closeModal={closeModal}
+                reloadPage={reloadPage}
+            />
+        </>
+    );
 }
 
-export default CustomDataTable;
+export default DataTable

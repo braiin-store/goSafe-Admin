@@ -1,7 +1,5 @@
 import Swal from 'sweetalert2';
 
-import { useState, useEffect } from 'react'
-
 export const URL = "http://localhost:8000/api";
 
 const isImage = path => {
@@ -9,36 +7,30 @@ const isImage = path => {
     return regex.test(path) || !path;
 }
 
-export const useFileRead = (imgName, { model, setImg }) => {
-    let input = document.getElementById('img')
-    if (isImage(input.value)) {
+export const readFile = ({ value, files }, { setImg, closeModal }) => {
+    if (isImage(value)) {
         let reader = new FileReader()
-
         reader.onload = ({ target }) => {
-            setImg(model[imgName] = target.result)
-        };
-
-        reader.readAsDataURL(input.files[0])
+            let base64 = target.result
+            // console.log(base64.split('base64,'));
+            base64 = base64.split(';base64,')
+            console.log({ext: base64[0].split('/').pop(), data: base64.pop()});
+            setImg(target.result);
+        }
+        reader.readAsDataURL(files[0])
     } else {
-        alert('Archivo No válido')
+        closeModal()
+        Swal.fire({
+            icon: 'warning',
+            title: 'Archivo No válido',
+            text: 'Debe seleccionar una Imagen',
+            confirmButtonText: 'Ok',
+        }).then();
     }
 }
 
-export const useFetch = (url, { reload, setReload }) => {
-    const [rows, setRows] = useState([]);
-    useEffect(() => {
-        if (reload) {
-            setReload(false)
-            fetch(url)
-                .then(async res => setRows(await res.json()))
-                .catch(error => console.error(error))
-        }
-    }, [url, reload, setReload]);
-
-    return rows;
-}
-
-export const useSave = async (url, { model, setOpen, setReload }) => {
+export const save = async (url, { model, reloadPage }) => {
+    console.log(model);
     try {
         let res = await fetch(`${url}/${model.id ?? ''}`, {
             method: model.id ? "PUT" : "POST",
@@ -49,9 +41,7 @@ export const useSave = async (url, { model, setOpen, setReload }) => {
             body: JSON.stringify(model)
         })
 
-        setOpen(false)
-        setReload(true)
-
+        reloadPage()
         console.log(await res.json())
 
         await Swal.fire({
@@ -71,14 +61,15 @@ export const useSave = async (url, { model, setOpen, setReload }) => {
     }
 }
 
-export const useDelete = async (url, { public_id, setReload }) => {
+export const destroy = async (url, { public_id, reloadPage }) => {
     let result = await Swal.fire({
         icon: 'warning',
         title: 'Está seguro?',
         text: 'No podrá deshacer los cambios',
         showCancelButton: true,
-        cancelButtonText: 'Cancelar',
+        cancelButtonText: 'No',
         confirmButtonText: 'Si',
+        cancelButtonColor: 'red',
     });
 
     if (!result.isConfirmed) return;
@@ -89,7 +80,7 @@ export const useDelete = async (url, { public_id, setReload }) => {
             headers: { public_id },
         })
 
-        setReload(true)
+        reloadPage()
         console.log(await res.json());
 
         await Swal.fire({

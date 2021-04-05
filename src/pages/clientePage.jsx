@@ -1,46 +1,37 @@
-import { useState } from 'react'
-
 import { Add } from '@material-ui/icons'
-import { Grid, Button, Typography, Paper } from '@material-ui/core'
+import { Grid, Button } from '@material-ui/core'
 
-import './cliente/styles.css'
-
-import Datatable from './cliente/dataTable'
+import './cliente/cliente.css'
 import ModalForm from './cliente/modalForm'
+import DataTable from './cliente/dataTable'
 
-import { URL, useFetch } from '../hooks/modelHook'
+import { URL } from '../utils/formUtils'
+import { useModal, useFetch } from '../hooks/stateHook'
 
 const ClientePage = () => {
-    const [open, setOpen] = useState(false);
-    const [reload, setReload] = useState(true);
+    const { open, openModal, closeModal } = useModal()
 
-    const rows = useFetch(`${URL}/clientes`, { reload, setReload })
+    const { rows, reloadPage } = useFetch(`${URL}/clientes`, {})
 
     return <>
-        <ModalForm open={open} setOpen={setOpen} setReload={setReload} />
-        <Grid container spacing={1} direction="row" alignItems="baseline" justify="center">
-            <Grid item xs={12} container spacing={3} justify="space-between">
-                <Grid item>
-                    <Typography variant="h4"><strong>CLIENTES</strong></Typography>
-                </Grid>
-                <Grid item>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        startIcon={<Add />}
-                        onClick={() => setOpen(true)}
-                    >
-                        Nuevo Cliente
+        <ModalForm open={open} closeModal={closeModal} reloadPage={reloadPage} />
+        <Grid container spacing={1} direction="row">
+            <Grid item>
+                <Button
+                    disableElevation
+                    color="primary"
+                    variant="contained"
+                    startIcon={<Add />}
+                    onClick={openModal}
+                >
+                    Nuevo Cliente
                     </Button>
-                </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Paper style={{ paddingLeft: 10, paddingRight: 10 }}>
-                    <Datatable rows={rows} setReload={setReload} />
-                </Paper>
+                <DataTable rows={rows} openModal={openModal} reloadPage={reloadPage} />
             </Grid>
         </Grid>
-    </>;
+    </>
 }
 
-export default ClientePage;
+export default ClientePage
