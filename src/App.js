@@ -1,10 +1,12 @@
+import './app.css'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
-import Dashboard from './components/dashboard/dashboard'
 
 import ClientePage from './pages/clientePage'
 import ConductorPage from './pages/conductorPage'
+
+import Dashboard from './components/dashboard/dashboard'
 
 const theme = createMuiTheme({
   palette: {

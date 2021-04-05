@@ -1,4 +1,4 @@
-/* .MuiTableRow-root {
+.MuiTableRow-root {
     height: 80% !important;
 }
 
@@ -38,4 +38,4 @@
     object-fit: scale-down;
     border: 3px dashed grey;
     background-color: whitesmoke;
-} */
+}

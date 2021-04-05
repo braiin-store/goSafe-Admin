@@ -15,6 +15,7 @@ import { options, tableIcons } from '../../utils/tableSettings'
 const cols = [
     'id',
     'foto',
+    'cedula',
     'nombre',
     'correo',
     'celular',
@@ -29,7 +30,7 @@ const StateButton = ({ id, estado }) => {
 
         estado = !estado
 
-        await fetch(`${URL}/clientes/${id}`, {
+        await fetch(`${URL}/conductores/${id}`, {
             method: "PUT",
             headers: {
                 "Accept": "Application/json",
@@ -107,7 +108,7 @@ const columns = ({ openModal, reloadPage }) => {
                 <Button
                     title="Eliminar"
                     style={{ color: '#F44336' }}
-                    onClick={async () => { await destroy(`${URL}/clientes/${row.id}`, { reloadPage, public_id: row.public_id, }) }}
+                    onClick={async () => { await destroy(`${URL}/conductores/${row.id}`, { reloadPage, public_id: row.public_id, }) }}
                     children={[<Delete fontSize="small" />]}
                 />
             </ButtonGroup>
@@ -129,7 +130,7 @@ const DataTable = ({ rows, reloadPage }) => {
     return (
         <>
             <MaterialTable
-                title="Clientes"
+                title="Conductores"
                 style={{ paddingLeft: 10, paddingRight: 10 }}
                 columns={columns({ openModal: handleModal, reloadPage })}
                 data={rows}
