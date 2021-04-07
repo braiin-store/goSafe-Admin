@@ -8,7 +8,7 @@ import { Button, ButtonGroup } from '@material-ui/core'
 import { Delete, Edit, Visibility } from '@material-ui/icons'
 
 import ModalForm from './modalForm'
-import { useModal } from '../../hooks/stateHook'
+import { useModal } from '../../hooks/useState'
 import { URL, destroy } from '../../utils/formUtils'
 import { options, tableIcons } from '../../utils/tableSettings'
 

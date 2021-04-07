@@ -3,6 +3,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 
+import HomePage from './pages/homePage'
 import ClientePage from './pages/clientePage'
 import ConductorPage from './pages/conductorPage'
 
@@ -30,7 +31,7 @@ const App = () => {
             <Redirect to="/home" />
           </Route>
           <Route path="/home">
-            <Dashboard child={<h1>homePage Works!!</h1>} />
+            <Dashboard child={<HomePage />} />
           </Route>
           <Route path="/clientes">
             <Dashboard child={<ClientePage />} />

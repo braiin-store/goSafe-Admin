@@ -51,5 +51,3 @@ export const options = {
     actionsColumnIndex: -1,
     toolbarButtonAlignment: 'left',
 }
-
-export default tableIcons;
