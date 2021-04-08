@@ -73,11 +73,15 @@ const showCliente= ({id}) => {
 
 const columns = ({ openModal, reloadPage }) => {
     let tmp = cols.map(col => {
-        let obj = { title: col, field: col }
+        let obj = {
+            key: Date.now(),
+            title: col,
+            field: col
+        }
 
         if (col === 'foto') {
             obj.align = 'left'
-            obj.searchable = false
+            obj.searchable = false  
             obj.render = ({ foto }) => (
                 <img
                     src={foto}
@@ -136,7 +140,7 @@ const DataTable = ({ rows, reloadPage }) => {
 
     return (
         <>
-            <MaterialTable
+            <MaterialTable      
                 title="Clientes"
                 style={{ paddingLeft: 10, paddingRight: 10 }}
                 columns={columns({ openModal: handleModal, reloadPage })}

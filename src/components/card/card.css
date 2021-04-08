@@ -1,0 +1,29 @@
+.card {
+    height: 20vh;
+    
+    display: flex;
+    position: relative;
+    
+    align-items: center;
+    justify-content: center;
+
+    border: 3px solid gray;
+    border-radius: 10px !important;
+}
+
+.card-content {
+    position: absolute;
+}
+
+.card-content * {
+    margin: 2px 0 !important;
+    padding: 0 0 !important;
+}
+
+.card-img {
+    opacity: .25;
+    filter: blur(2px);
+    position: absolute;
+    width: 45% !important;
+    object-fit: scale-down !important;
+}

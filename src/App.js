@@ -3,6 +3,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 
+import HomePage from './pages/homePage'
 import ClientePage from './pages/clientePage'
 import ConductorPage from './pages/conductorPage'
 import Detail from './pages/cliente/detail'
