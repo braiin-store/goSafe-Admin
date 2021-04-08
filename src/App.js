@@ -6,6 +6,10 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import HomePage from './pages/homePage'
 import ClientePage from './pages/clientePage'
 import ConductorPage from './pages/conductorPage'
+import Detail from './pages/cliente/detail'
+
+import Home from './pages/home'
+
 
 import Dashboard from './components/dashboard/dashboard'
 
@@ -22,6 +26,8 @@ const theme = createMuiTheme({
   },
 })
 
+
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -31,11 +37,14 @@ const App = () => {
             <Redirect to="/home" />
           </Route>
           <Route path="/home">
-            <Dashboard child={<HomePage />} />
+            <Dashboard child={<Home/>} />
           </Route>
           <Route path="/clientes">
             <Dashboard child={<ClientePage />} />
           </Route>
+            <Route path="/clientes/:id">
+              <Dashboard child={<Detail/>} />
+            </Route>
           <Route path="/conductores">
             <Dashboard child={<ConductorPage />} />
           </Route>

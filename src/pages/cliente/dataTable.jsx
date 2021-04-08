@@ -8,9 +8,11 @@ import { Button, ButtonGroup } from '@material-ui/core'
 import { Delete, Edit, Visibility } from '@material-ui/icons'
 
 import ModalForm from './modalForm'
-import { useModal } from '../../hooks/useState'
+import detail from './detail'
+import { useModal } from '../../hooks/stateHook'
 import { URL, destroy } from '../../utils/formUtils'
 import { options, tableIcons } from '../../utils/tableSettings'
+import { useHistory } from 'react-router'
 
 const cols = [
     'id',
@@ -63,6 +65,12 @@ const StateButton = ({ id, estado }) => {
 
 }
 
+const showCliente= ({id}) => {
+    const history = useHistory();
+
+    history.push(`/clientes/${id}`);
+}
+
 const columns = ({ openModal, reloadPage }) => {
     let tmp = cols.map(col => {
         let obj = {
@@ -100,7 +108,7 @@ const columns = ({ openModal, reloadPage }) => {
                 <Button
                     title="Ver Detalle"
                     style={{ color: '#1876D2' }}
-                    onClick={() => alert(JSON.stringify(row))}
+                    onClick={() => showCliente(row)}
                     children={[<Visibility fontSize="small" />]}
                 />
                 <Button
