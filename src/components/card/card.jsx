@@ -1,12 +1,12 @@
 import './card.css'
 
-import { memo } from 'react'
 import PropTypes from 'prop-types'
 
+import { memo, useContext } from 'react'
 import { LocationOn, LocationOff } from '@material-ui/icons'
 import { Grid, Card, CardMedia, CardContent, IconButton } from '@material-ui/core'
 
-import { useMarker } from '../../hooks/useLocation'
+import { streamContext } from '../../hooks/useFirebase'
 
 const Colors = {
     alert: '#FFD9D7',
@@ -20,9 +20,14 @@ const Icons = {
     client: require('./svgs/client.svg').default,
 }
 
-const InfoCard = ({ icon, title, showMarker }) => {
-    const { on, handleMarkerClick } = useMarker(showMarker)
-    console.log("rendering logs");
+const getStream = ({ icon, streams }) => ({
+    show: streams[`${icon}Show`],
+    changeShow: streams[`change_${icon}Show`],
+})
+
+const InfoCard = ({ icon, title }) => {
+    const { show, changeShow } = getStream({ icon, streams: useContext(streamContext) })
+
     return (
         <Card
             className="card"
@@ -45,9 +50,9 @@ const InfoCard = ({ icon, title, showMarker }) => {
                 <Grid container direction="row" justify="space-evenly">
                     <Grid item>
                         <IconButton
-                            title={on ? "Desactivar Ubicación" : "Activar Ubicación"}
-                            children={[on ? <LocationOn /> : <LocationOff />]}
-                            onClick={handleMarkerClick}
+                            title={show ? "Desactivar Ubicación" : "Activar Ubicación"}
+                            children={[show ? <LocationOn key="1" /> : <LocationOff key="2" />]}
+                            onClick={changeShow}
                         />
                     </Grid>
                 </Grid>

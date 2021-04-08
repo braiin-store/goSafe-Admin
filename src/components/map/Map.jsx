@@ -8,9 +8,13 @@ import { Alert } from './markers'
 import { memo, useState } from 'react'
 import { useLocation } from '../../hooks/useLocation'
 
-const MapView = ({ drivers, clients, requests }) => {
+const MapView = ({ alerts, drivers, clients }) => {
     const [reload, setReload] = useState(true)
     const location = useLocation(() => setReload(false))
+
+    console.log("alerts", alerts);
+    console.log("drivers", drivers);
+    console.log("clients", clients);
 
     return (
         reload && !location

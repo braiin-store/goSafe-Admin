@@ -3,39 +3,52 @@ import { Grid, Paper } from '@material-ui/core'
 import Card from '../components/card/card'
 import MapView from '../components/map/Map'
 
+import { streamContext, useFetch, useStreams } from '../hooks/useFirebase'
+
+const cards = [
+    ["alert", "Auxilios"],
+    ["client", "Clientes"],
+    ["driver", "Conductores"],
+]
+
 const HomePage = () => {
-    return <>
+    const streams = useStreams()
+
+    const data = {
+        alerts: useFetch('alerts', streams.alertShow),
+        clients: useFetch('clients', streams.clientShow),
+        drivers: useFetch('drivers', streams.driverShow),
+    }
+
+    return <streamContext.Provider value={streams}>
         <Grid
             container
-            direction="column"
-
             spacing={2}
-            justify="space-between"
+
+            direction="column"
             alignItems="stretch"
             alignContent="center"
+            justify="space-between"
         >
             <Grid
-                item container
-                direction="row"
+                item
+                container
                 spacing={3}
+                direction="row"
             >
-                <Grid item xs>
-                    <Card icon="driver" title="Conductores"/>
-                </Grid>
-                <Grid item xs>
-                    <Card icon="client" title="Clientes"/>
-                </Grid>
-                <Grid item xs>
-                    <Card icon="alert" title="Auxilios"/>
-                </Grid>
+                {cards.map(([icon, title]) =>
+                    <Grid key={icon} item xs>
+                        <Card icon={icon} title={title} />
+                    </Grid>
+                )}
             </Grid>
             <Grid item>
                 <Paper elevation={3}>
-                    <MapView />
+                    <MapView {...data} />
                 </Paper>
             </Grid>
         </Grid>
-    </>
+    </streamContext.Provider>
 }
 
 
