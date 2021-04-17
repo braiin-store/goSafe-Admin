@@ -20,10 +20,10 @@ const MapView = ({ alerts, drivers, clients }) => {
         reload && !location
             ? <CircularProgress color="secondary" />
             :
-            <MapContainer
+            <MapContainer 
                 zoom={13.5}
                 className="map"
-                scrollWheelZoom={false}
+                scrollWheelZoom={true}
                 center={location}
             >
                 <TileLayer
