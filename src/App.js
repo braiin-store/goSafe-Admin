@@ -2,14 +2,10 @@ import './app.css'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
-
-import HomePage from './pages/homePage'
+import Home from './pages/homePage'
+import Detail from './pages/cliente/detail'
 import ClientePage from './pages/clientePage'
 import ConductorPage from './pages/conductorPage'
-import Detail from './pages/cliente/detail'
-
-import Home from './pages/home'
-
 
 import Dashboard from './components/dashboard/dashboard'
 

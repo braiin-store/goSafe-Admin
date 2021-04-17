@@ -1,18 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from 'react'
 import MaterialTable from 'material-table'
 
-import { useState } from 'react'
 
+import { useHistory } from 'react-router'
 import { ToggleButton } from '@material-ui/lab'
 import { Button, ButtonGroup } from '@material-ui/core'
 import { Delete, Edit, Visibility } from '@material-ui/icons'
 
 import ModalForm from './modalForm'
-import detail from './detail'
-import { useModal } from '../../hooks/stateHook'
+import { useModal } from '../../hooks/useState'
 import { URL, destroy } from '../../utils/formUtils'
 import { options, tableIcons } from '../../utils/tableSettings'
-import { useHistory } from 'react-router'
 
 const cols = [
     'id',
@@ -65,9 +65,8 @@ const StateButton = ({ id, estado }) => {
 
 }
 
-const showCliente= ({id}) => {
+const showCliente = ({ id }) => {
     const history = useHistory();
-
     history.push(`/clientes/${id}`);
 }
 
@@ -81,7 +80,7 @@ const columns = ({ openModal, reloadPage }) => {
 
         if (col === 'foto') {
             obj.align = 'left'
-            obj.searchable = false  
+            obj.searchable = false
             obj.render = ({ foto }) => (
                 <img
                     src={foto}
@@ -140,7 +139,7 @@ const DataTable = ({ rows, reloadPage }) => {
 
     return (
         <>
-            <MaterialTable      
+            <MaterialTable
                 title="Clientes"
                 style={{ paddingLeft: 10, paddingRight: 10 }}
                 columns={columns({ openModal: handleModal, reloadPage })}
