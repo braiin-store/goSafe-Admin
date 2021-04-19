@@ -31,12 +31,10 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <AuthRoute path="/" exact>
-            <Redirect to="/home" />
-          </AuthRoute>
-          <AuthRoute path="/home">
+          
+          <Route path="/home">
             <Dashboard child={<Home/>} />
-          </AuthRoute>
+          </Route>
           <Route path="/login">
             <LoginPage/>
           </Route>
@@ -49,6 +47,9 @@ const App = () => {
           <AuthRoute path="/conductores">
              <Dashboard child={<ConductorPage />} />
           </AuthRoute>
+          <Route path="/" exact>
+            <Redirect to="/home" />
+          </Route>
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
