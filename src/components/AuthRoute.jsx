@@ -1,10 +1,22 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+
 
 export default function AuthRoute({path,children}) {
-    return (
-        <Route path={path} >
-            {children}
-        </Route>
-    )
+    const sessionToken =localStorage.getItem('token')
+    console.log(sessionToken);
+    if (sessionToken!=null){
+        return (
+            <Route path={path} >
+                {children}
+            </Route>
+        )
+    }
+    else{
+        return (
+            <Redirect to='/login' >
+                
+            </Redirect>
+        )
+    }
+    
 }

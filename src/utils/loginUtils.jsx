@@ -1,33 +1,38 @@
-import Swal from 'sweetalert2';
-export const URL = "http://localhost:8000/api";
-export const save = async (url, { model, reloadPage }) => {
-    console.log(model);
-    try {
-        let res = await fetch(`${url}/signin`, {
-            method: "POST",
-            headers: {
-                "Accept": "Application/json",
-                "Content-Type": "Application/json",
-            },
-            body: JSON.stringify(model)
-        })
 
-        reloadPage()
-        console.log(await res.json())
+import Swal from "sweetalert2";
+import AuthAPI from "../api/auth.api";
 
-        await Swal.fire({
-            timer: 1300,
-            icon: 'success',
-            title: 'Logueado !!',
-            text: 'Sesion iniciada Correctamente!',
-            showConfirmButton: false,
-        })
-    } catch (error) {
-        console.error(error);
-        await Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: 'Algo Salió mal'
-        })
-    }
-}
+const loginUtil = {
+	save: async (form) => {
+        
+		// console.log(form);
+		try {
+            // api
+			const data = await AuthAPI.signIn(form);
+			// console.log(data);
+
+            // api end
+             localStorage.setItem('token',data.token)
+			await Swal.fire({
+				timer: 1300,
+				icon: "success",
+				title: "Logueado !!",
+				text: "Sesion iniciada Correctamente!",
+				showConfirmButton: true,
+                confirmButtonText: 'Continuar',
+                
+			});
+                   
+		} catch (error) {
+			console.error(error);
+			await Swal.fire({
+				icon: "error",
+				title: "Ups...",
+				text: "Algo Salió mal",
+			});
+		}
+	},
+};
+export default loginUtil;
+
+
