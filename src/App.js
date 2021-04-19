@@ -8,6 +8,8 @@ import ClientePage from './pages/clientePage'
 import ConductorPage from './pages/conductorPage'
 
 import Dashboard from './components/dashboard/dashboard'
+import AuthRoute from './components/AuthRoute'
+import LoginPage from './pages/loginPage'
 
 const theme = createMuiTheme({
   palette: {
@@ -29,21 +31,24 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact>
+          <AuthRoute path="/" exact>
             <Redirect to="/home" />
-          </Route>
-          <Route path="/home">
+          </AuthRoute>
+          <AuthRoute path="/home">
             <Dashboard child={<Home/>} />
+          </AuthRoute>
+          <Route path="/login">
+            <LoginPage/>
           </Route>
-          <Route path="/clientes">
+          <AuthRoute path="/clientes">
             <Dashboard child={<ClientePage />} />
-          </Route>
-            <Route path="/clientes/:id">
-              <Dashboard child={<Detail/>} />
-            </Route>
-          <Route path="/conductores">
-            <Dashboard child={<ConductorPage />} />
-          </Route>
+          </AuthRoute>
+            <AuthRoute path="/clientes/:id">
+             <Dashboard child={<Detail/>} />
+            </AuthRoute>
+          <AuthRoute path="/conductores">
+             <Dashboard child={<ConductorPage />} />
+          </AuthRoute>
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

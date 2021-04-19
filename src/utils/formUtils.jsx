@@ -1,6 +1,12 @@
 import Swal from 'sweetalert2';
 
 export const URL = "http://localhost:8000/api";
+export const handleFormChange=(e,form,setForm)=>{
+
+    setForm({...form,[e.target.name]:e.target.value});
+    
+
+}
 
 const isImage = path => {
     const regex = /\.(jpe?g|png|gif|bmp)$/i;
