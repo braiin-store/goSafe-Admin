@@ -10,7 +10,9 @@ const loginUtil = {
             // api
 			const data = await AuthAPI.signIn(form);
 			// console.log(data);
-
+            if(data.token==undefined){
+                throw('NO TOKEN');
+            }
             // api end
              localStorage.setItem('token',data.token)
 			await Swal.fire({
@@ -18,8 +20,7 @@ const loginUtil = {
 				icon: "success",
 				title: "Logueado !!",
 				text: "Sesion iniciada Correctamente!",
-				showConfirmButton: true,
-                confirmButtonText: 'Continuar',
+				showConfirmButton: false,
                 
 			});
                    

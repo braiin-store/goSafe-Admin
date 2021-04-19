@@ -6,8 +6,10 @@ import AuthAPI from '../api/auth.api';
 
 const handleLogout= async()=>{
 try {
+    localStorage.clear('token')
     await AuthAPI.signOut();
-
+   
+    
 } catch (error) {
     
 }
