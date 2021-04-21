@@ -21,7 +21,7 @@ const cols = [
     'correo',
     'celular',
     'direccion',
-    'estado',
+    'estado'
 ]
 
 const StateButton = ({ id, estado }) => {
