@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {SuscriptionCard} from './suscriptionCard'
+import { suscriptionAPI } from '../../api/suscription.api';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1.5),
   },
   heroContent: {
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(4, 0, 6),
   },
   cardHeader: {
     backgroundColor:
@@ -56,12 +57,12 @@ const subscriptions = [
     title: 'Free',
     price: '0',
     description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-    buttonText: 'Sign up for free',
-    buttonVariant: 'outlined',
+    buttonText: 'Seleccionar',
+    buttonVariant: 'contained',
   },
   {
     title: 'Pro',
-    subheader: 'Most popular',
+    // subheader: 'Most popular',
     price: '15',
     description: [
       '20 users included',
@@ -69,7 +70,7 @@ const subscriptions = [
       'Help center access',
       'Priority email support',
     ],
-    buttonText: 'Get started',
+    buttonText: 'Seleccionar',
     buttonVariant: 'contained',
   },
   {
@@ -81,15 +82,22 @@ const subscriptions = [
       'Help center access',
       'Phone & email support',
     ],
-    buttonText: 'Contact us',
-    buttonVariant: 'outlined',
+    buttonText: 'Seleccionar',
+    buttonVariant: 'contained',
   },
 ];
 
 
 export default function SuscriptionContainer() {
   const classes = useStyles();
-
+  const [suscriptions, setSuscriptions] = useState([])
+  useEffect(() => {
+    loadSubscriptions()
+  }, []);
+  const loadSubscriptions=async()=>{
+   const res=await suscriptionAPI.all()
+   setSuscriptions(res);
+  }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -100,13 +108,13 @@ export default function SuscriptionContainer() {
           Precios
         </Typography>
         <Typography variant="h5" align="center" color="textSecondary" component="p">
-          Estos son las suscripciones
+          Estas son las suscripciones disponibles
         </Typography>
       </Container>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
-          {subscriptions.map((subItem) => (
+          {suscriptions.map((subItem) => (
               <SuscriptionCard sub={subItem}></SuscriptionCard>
           ))}
         </Grid>

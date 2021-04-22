@@ -63,33 +63,39 @@ export const SuscriptionCard = ({sub}) => {
          <Grid item key={sub.title} xs={12} sm={sub.title === 'Enterprise' ? 12 : 6} md={4}>
          <Card>
            <CardHeader
-             title={sub.title}
+             title={sub.tipo}
              subheader={sub.subheader}
              titleTypographyProps={{ align: 'center' }}
              subheaderTypographyProps={{ align: 'center' }}
-             action={sub.title === 'Pro' ? <StarIcon /> : null}
+            //  action={sub.title === 'Pro' ? <StarIcon /> : null}
              className={classes.cardHeader}
            />
            <CardContent>
              <div className={classes.cardPricing}>
                <Typography component="h2" variant="h3" color="textPrimary">
-                 ${sub.price}
+                 ${sub.precio}
                </Typography>
                <Typography variant="h6" color="textSecondary">
-                 /mo
+                 {/* /bs */}
                </Typography>
              </div>
-             <ul>
+             {/* <ul>
                {sub.description.map((line) => (
                  <Typography component="li" variant="subtitle1" align="center" key={line}>
                    {line}
                  </Typography>
                ))}
+             </ul> */}
+              <ul>
+             <Typography component="li" variant="subtitle1" align="center" key={sub.dias}>
+                  {'Duracion: '+sub.dias+' dias'} 
+             </Typography>
              </ul>
            </CardContent>
            <CardActions>
-             <Button fullWidth variant={sub.buttonVariant} color="primary">
-               {sub.buttonText}
+             <Button fullWidth variant={'contained'} color="primary">
+               {/* {sub.buttonText} */}
+               Seleccionar
              </Button>
            </CardActions>
          </Card>

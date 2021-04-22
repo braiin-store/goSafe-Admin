@@ -1,4 +1,4 @@
-export const url = "http://localhost:8000/api";
+import {url} from './api.utils'
 const AuthAPI={
       signIn:async(form)=> {
         let res = await fetch(`${url}/signin`, {
