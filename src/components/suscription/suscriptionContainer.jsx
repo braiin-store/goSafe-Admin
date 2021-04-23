@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {SuscriptionCard} from './suscriptionCard'
 import { suscriptionAPI } from '../../api/suscription.api';
+import { SuscriptionContext } from '../../utils/contexts';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -88,9 +89,10 @@ const subscriptions = [
 ];
 
 
-export default function SuscriptionContainer() {
+export default function SuscriptionContainer({style}) {
   const classes = useStyles();
-  const [suscriptions, setSuscriptions] = useState([])
+  const [suscriptions, setSuscriptions] = useState([]);
+  const contextData = useContext(	SuscriptionContext )
   useEffect(() => {
     loadSubscriptions()
   }, []);
@@ -99,9 +101,8 @@ export default function SuscriptionContainer() {
    setSuscriptions(res);
   }
   return (
-    <React.Fragment>
+    <div style={style}>
       <CssBaseline />
-     
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
@@ -115,11 +116,11 @@ export default function SuscriptionContainer() {
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {suscriptions.map((subItem) => (
-              <SuscriptionCard sub={subItem}></SuscriptionCard>
+              <SuscriptionCard sub={subItem} onClickCardConfirm={()=>{contextData.setSelectedSuscription(subItem);console.log(contextData);}}></SuscriptionCard>
           ))}
         </Grid>
       </Container>
       
-    </React.Fragment>
+    </div>
   );
 }

@@ -45,18 +45,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'baseline',
     marginBottom: theme.spacing(2),
   },
-  footer: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(6),
-      paddingBottom: theme.spacing(6),
-    },
-  },
+  
 }));
-export const SuscriptionCard = ({sub}) => {
+export const SuscriptionCard = ({sub,onClickCardConfirm}) => {
   const classes = useStyles();
     return (
          // Enterprise card is full width at sm breakpoint
@@ -72,8 +63,8 @@ export const SuscriptionCard = ({sub}) => {
            />
            <CardContent>
              <div className={classes.cardPricing}>
-               <Typography component="h2" variant="h3" color="textPrimary">
-                 ${sub.precio}
+               <Typography component="h2" variant="h5" color="textPrimary">
+                 {sub.precio+' Bs'} 
                </Typography>
                <Typography variant="h6" color="textSecondary">
                  {/* /bs */}
@@ -93,7 +84,7 @@ export const SuscriptionCard = ({sub}) => {
              </ul>
            </CardContent>
            <CardActions>
-             <Button fullWidth variant={'contained'} color="primary">
+             <Button fullWidth variant={'contained'} color="primary" onClick={onClickCardConfirm}>
                {/* {sub.buttonText} */}
                Seleccionar
              </Button>

@@ -18,6 +18,17 @@ export const SuscriptionTag = ({ id,data, onClickEmpty, onClickSub }) => {
 			</ToggleButton>
 		);
 	} else {
-		return <div></div>;
+		return (
+			<ToggleButton
+				id={id+'-btn-sus'}
+				className="badge"
+				title='Suscripcion Actual'
+				style={{ backgroundColor:"blue" }}
+				onClick={onClickSub}
+				
+			>
+				{data[0].Suscripcion.tipo}
+			</ToggleButton>
+		)
 	}
 };

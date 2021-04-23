@@ -1,12 +1,21 @@
 /* eslint-disable jsx-a11y/alt-text */
 import MaterialTable from "material-table";
-
-import { useState } from "react";
+import SwipeableViews from "react-swipeable-views";
+import { useContext, useState } from "react";
 
 import { ToggleButton } from "@material-ui/lab";
-import { Button, ButtonGroup } from "@material-ui/core";
+import {
+	Button,
+	ButtonGroup,
+	Chip,
+	Grid,
+	Input,
+	makeStyles,
+	TextField,
+	Typography,
+} from "@material-ui/core";
 import { Delete, Edit, Visibility } from "@material-ui/icons";
-
+import { DatePicker } from "@material-ui/pickers";
 import ModalForm from "./modalForm";
 import { useModal } from "../../hooks/useState";
 import { URL, destroy } from "../../utils/formUtils";
@@ -14,7 +23,11 @@ import { options, tableIcons } from "../../utils/tableSettings";
 import { SuscriptionTag } from "../../components/suscription/suscriptionTag";
 import { ModalAlert } from "../../components/modalAlert";
 import { useAlertModal } from "../../hooks/useAlertModal";
-import SuscriptionContainer from "../../components/suscription/suscriptionContainer";
+import SuscriptionListContainer from "../../components/suscription/suscriptionContainer";
+import { SuscriptionContext } from "../../utils/contexts";
+import { suscriptionAPI } from "../../api/suscription.api";
+import moment from "moment";
+
 const cols = [
 	"id",
 	"foto",
@@ -67,7 +80,17 @@ const StateButton = ({ id, estado }) => {
 	);
 };
 
-const columns = ({ openModal, reloadPage ,openAlert }) => {
+const columns = ({ openModal, reloadPage, openAlert, contextData }) => {
+	const clickEmptySuscription = (conductor) => {
+		openAlert();
+
+		contextData.setSelectedConductor(conductor);
+	};
+	const handleClickEmpty = (id, nombre) => {
+		clickEmptySuscription({ id, nombre });
+		contextData.setSelectedSuscription(null);
+		
+	};
 	let tmp = cols.map((col) => {
 		let obj = { title: col, field: col };
 
@@ -94,11 +117,11 @@ const columns = ({ openModal, reloadPage ,openAlert }) => {
 		if (col === "suscripcion") {
 			obj.align = "center";
 			obj.searchable = false;
-			obj.render = ({ id, DetalleSuscripcions }) => (
+			obj.render = ({ id, nombre, DetalleSuscripcions }) => (
 				<SuscriptionTag
 					id={id}
 					data={DetalleSuscripcions}
-					onClickEmpty={openAlert}
+					onClickEmpty={() => handleClickEmpty(id, nombre)}
 				/>
 			);
 		}
@@ -144,18 +167,48 @@ const DataTable = ({ rows, reloadPage }) => {
 	const { isOpen, openAlert, closeAlert } = useAlertModal();
 	const [model, setModel] = useState({});
 	const { open, openModal, closeModal } = useModal();
-
+	const contextData = useContext(SuscriptionContext);
+	const [selectedDate, handleDateChange] = useState(new Date());
+	const handleClickSuscriptionSave = async () => {
+		const data = {
+			conductorId: contextData.selectedConductor.id,
+			suscripcion: {
+				id: contextData.selectedSuscription.id,
+				fechaInicio: moment(selectedDate).format("DD/MM/YYYY"),
+			},
+		};
+		// console.log( data);
+		await suscriptionAPI.subscribeDriver(data);
+		contextData.resetSuscriptionState();
+		closeAlert();
+		reloadPage();
+	};
 	const handleModal = (row) => {
 		setModel(row);
 		openModal();
 	};
-
+	const useStyles = makeStyles({
+		dialogPaper: {
+			minHeight: "20vh",
+			maxHeight: "90vh",
+		},
+		dialogPaperMin: {
+			minHeight: "20vh",
+			maxHeight: "60vh",
+		},
+	});
+	const classes = useStyles();
 	return (
 		<>
 			<MaterialTable
 				title="Conductores"
 				style={{ paddingLeft: 10, paddingRight: 10 }}
-				columns={columns({ openModal: handleModal, reloadPage,openAlert })}
+				columns={columns({
+					openModal: handleModal,
+					reloadPage,
+					openAlert,
+					contextData,
+				})}
 				data={rows}
 				options={options}
 				icons={tableIcons}
@@ -172,9 +225,73 @@ const DataTable = ({ rows, reloadPage }) => {
 				handleClose={closeAlert}
 				title="Suscripciones"
 				handleClickSave={() => {}}
+				onClickCancel={() => {
+					contextData.setSelectedSuscription(null);
+				}}
+				classes={{ paper: classes.dialogPaper }}
+				btnCancel
 			>
-                <SuscriptionContainer></SuscriptionContainer>
-            </ModalAlert>
+				<SwipeableViews
+					disabled
+					index={contextData.selectedSuscription == null ? 0 : 1}
+					animateHeight
+				>
+					<SuscriptionListContainer
+						style={{
+							maxHeight: 150,
+							minHeight: 500,
+							overflowY: "auto",
+						}}
+					></SuscriptionListContainer>
+					<Grid
+						direction="column"
+						style={{
+							maxHeight: 150,
+							minHeight: 250,
+							overflowY: "auto",
+							minWidth: 100,
+						}}
+						container
+						justify={"center"}
+						alignItems={"center"}
+					>
+						{"Conductor: "}
+						<Chip
+							label={contextData.selectedConductor?.nombre}
+							color="primary"
+						></Chip>
+
+						<br />
+						{"Suscripcion elegida: "}
+						<Chip
+							label={contextData.selectedSuscription?.tipo}
+							color="primary"
+						></Chip>
+
+						<br />
+
+						<DatePicker
+							inputVariant="outlined"
+							autoOk
+							label="Fecha de Inicio"
+							clearable
+							clearLabel="Limpiar"
+							disablePast
+							format="dd/MM/yyyy"
+							value={selectedDate}
+							onChange={handleDateChange}
+						/>
+
+						<Button
+							onClick={handleClickSuscriptionSave}
+							variant="contained"
+							color="primary"
+						>
+							{"Guardar"}
+						</Button>
+					</Grid>
+				</SwipeableViews>
+			</ModalAlert>
 		</>
 	);
 };
