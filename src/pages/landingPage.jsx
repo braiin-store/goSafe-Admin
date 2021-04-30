@@ -36,13 +36,20 @@ export const LandingPage = () => {
 				}}
 			>
 				<div className={landingPageCSS.appBarFlexContainer}>
-					<Grid container className={landingPageCSS.appBarColor}>
+					{/* <Grid container className={landingPageCSS.appBarColor}>
 						<Button style={{ backgroundColor: "white", margin: "1vh" }}>
 							{" "}
 							Registrate Ahora
 						</Button>
-					</Grid>
-					<Button style={{ backgroundColor: "white", margin: "1vh" }}>
+					</Grid> */}
+					<Button
+						style={{
+							position: "relative",
+							backgroundColor: "white",
+							margin: "1vh",
+							zIndex: 1,
+						}}
+					>
 						{" "}
 						Registrate Ahora
 					</Button>

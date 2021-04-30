@@ -1,0 +1,28 @@
+.appBarFlexContainer::after{
+	content: '';
+	background-color: #7ca63d;
+	mix-blend-mode: multiply;
+	position: absolute;
+	height:100%;
+	width: 100%;
+	top:0px;
+	left:0px;
+	
+}
+.appBarFlexContainer {
+	display: flex;
+	flex-direction: row-reverse;
+	position: relative;
+	top: 0px;
+}
+.mainTitleFirst{
+    font-family: 'MADE-Evolve-Sans-Bold';
+    color: #FFFF;
+    font-size: 6vh;
+}
+.mainTitleSecond{
+    font-family: 'MADE-Evolve-Sans-Bold';
+    color: #7ca63d;
+    font-size: 15vh;
+}
+
