@@ -1,7 +1,9 @@
 .MuiTableRow-root {
     height: 80% !important;
 }
-
+body{
+    margin: 0px;
+}
 .MuiTableRow-root:hover {
     background-color: whitesmoke !important;
 }
@@ -38,4 +40,8 @@
     object-fit: scale-down;
     border: 3px dashed grey;
     background-color: whitesmoke;
+}
+@font-face {
+    font-family: 'MADE-Evolve-Sans-Bold';
+    src: local('MADE-Evolve-Sans-Bold'),url('./assets/fonts/MADE-Evolve-Sans-Bold.otf') format('opentype');
 }
