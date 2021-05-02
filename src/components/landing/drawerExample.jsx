@@ -46,13 +46,18 @@ const useStyles = makeStyles((theme) => ({
 		display: "none",
 	},
 	drawer: {
+		
+		color:'white',
 		width: drawerWidth,
 		flexShrink: 0,
 	},
 	drawerPaper: {
+		color:'white',
+		backgroundColor:'rgba(00, 00, 00, 80%)',
 		width: drawerWidth,
 	},
 	drawerHeader: {
+		
 		display: "flex",
 		alignItems: "center",
 		padding: theme.spacing(0, 1),
@@ -83,6 +88,7 @@ export default function PersistentDrawerRight({
 	handleDrawerOpen,
 	openDrawer,
 	handleDrawerClose,
+	children
 }) {
 	const classes = useStyles();
 	const theme = useTheme();
@@ -116,7 +122,7 @@ export default function PersistentDrawerRight({
 				</Toolbar>
 				
 			</AppBar> */}
-			<Drawer
+			<Drawer 
 				className={classes.drawer}
 				variant="persistent"
 				anchor="right"
@@ -126,34 +132,15 @@ export default function PersistentDrawerRight({
 				}}
 			>
 				<div className={classes.drawerHeader}>
-					<IconButton onClick={handleDrawerClose}>
+					<IconButton  style={{color:'white'}} onClick={handleDrawerClose}>
 						<ChevronRightIcon />
 					</IconButton>
 				</div>
 				<Divider />
-				<List>
-					{["Inbox", "Starred", "Send email", "Drafts"].map(
-						(text, index) => (
-							<ListItem button key={text}>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItem>
-						)
-					)}
-				</List>
+				
+				
+				{children}
 				<Divider />
-				<List>
-					{["All mail", "Trash", "Spam"].map((text, index) => (
-						<ListItem button key={text}>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItem>
-					))}
-				</List>
 			</Drawer>
 		</div>
 	);

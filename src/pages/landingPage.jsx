@@ -10,36 +10,79 @@ import {
 	Typography,
 	Paper,
 	Box,
+	List,
 } from "@material-ui/core";
-import React from "react";
+import { DatePicker } from "@material-ui/pickers";
+import React, { useState } from "react";
 import backgroundURL from "../assets/images/firstBackground.png";
 import logoGoSafeByNURL from "../assets/images/logoGoSafeByN.png";
 import roundedRectangleURL from "../assets/images/rounded_rectangle.png";
 import background2URL from "../assets/images/secondBackground.png";
 import tickURL from "../assets/images/tick.png";
-import PersistentDrawerRight from "./drawerExample";
+import PersistentDrawerRight from "../components/landing/drawerExample";
 import landingPageCSS from "./landingPage.module.css";
-const currencies = [
+const cities = [
 	{
-		value: "USD",
-		label: "$",
+		value: "Santa Cruz",
+		label: "Santa Cruz",
 	},
 	{
-		value: "EUR",
-		label: "€",
+		value: "Cochabamba",
+		label: "Cochabamba",
 	},
 	{
-		value: "BTC",
-		label: "฿",
+		value: "Chuquisaca",
+		label: "Chuquisaca",
 	},
 	{
-		value: "JPY",
-		label: "¥",
+		value: "Tarija",
+		label: "Tarija",
 	},
+	{
+		value: "Oruro",
+		label: "Oruro",
+	},
+	{
+		value: "Pando",
+		label: "Pando",
+	},
+	{
+		value: "Beni",
+		label: "Beni",
+	},
+	{
+		value: "Potosi",
+		label: "Potosi",
+	},
+	{
+		value: "La Paz",
+		label: "La Paz",
+	},
+
 	{
 		value: "null",
 		label: "Seleccione ciudad",
 	},
+];
+const vehicles = [
+	{
+		value: "Auto",
+		label: "Vagoneta",
+	},
+	{
+		value: "Camioneta",
+		label: "Vagoneta",
+	},
+	{
+		value: "null",
+		label: "Tu Vehiculo",
+	},
+];
+const inputs = [
+	{ label: "Nombre", name: "name" },
+	{ label: "Apellido", name: "lastname" },
+	{ label: "Celular", name: "phone" },
+	{ label: "E-mail", name: "email" },
 ];
 const requirementsList = [
 	"Tener al menos 18 años y estar apto para trabajar",
@@ -86,19 +129,22 @@ const BootstrapInput = withStyles((theme) => ({
 	},
 }))(InputBase);
 export const LandingPage = () => {
+	const [selectedDate, handleDateChange] = useState(new Date());
 	const [openDrawer, setOpenDrawer] = React.useState(false);
 
 	const handleDrawerOpen = () => {
-		setOpenDrawer(true);
+		if (form.city != "null" && form.city != "null") {
+			setOpenDrawer(true);
+		}
 	};
 
 	const handleDrawerClose = () => {
 		setOpenDrawer(false);
 	};
-	const [currency, setCurrency] = React.useState("null");
+	const [form, setForm] = React.useState({ city: "null", vehicle: "null" });
 
 	const handleChange = (event) => {
-		setCurrency(event.target.value);
+		setForm({ ...form, [event.target.name]: event.target.value });
 	};
 	return (
 		<div className="container">
@@ -106,7 +152,96 @@ export const LandingPage = () => {
 				handleDrawerOpen={handleDrawerOpen}
 				openDrawer={openDrawer}
 				handleDrawerClose={handleDrawerClose}
-			></PersistentDrawerRight>
+			>
+				<List>
+					<Grid container justify="center">
+						<label>{"Completa para aplicar"}</label>
+
+						<Grid item md={11}>
+							{inputs.map((inputItem) => (
+								<TextField
+									style={{ width: "100%" }}
+									InputProps={{
+										style: {
+											backgroundColor: "black",
+											color: "white",
+										},
+									}}
+									InputLabelProps={{
+										style: { color: "#c2c2c2" },
+									}}
+									id="filled-select-currency"
+									label={inputItem.label}
+									name={inputItem.name}
+									value={form[inputItem.name]}
+									onChange={handleChange}
+									helperText="Tipo de Vehiculo"
+									variant="filled"
+								/>
+							))}
+
+							<DatePicker
+								inputVariant="outlined"
+								autoOk
+								InputProps={{
+									style: {
+										backgroundColor: "black",
+										color: "white",
+									},
+								}}
+								InputLabelProps={{
+									style: { color: "#c2c2c2" },
+								}}
+								label="Fecha de Nacimiento (mayor a 18 años)"
+								clearable
+								clearLabel="Limpiar"
+								disableFuture
+								format="dd/MM/yyyy"
+								value={selectedDate}
+								onChange={handleDateChange}
+							/>
+							<Button
+								className={landingPageCSS.registerCardButton}
+								style={{
+									backgroundColor: "#537e14",
+									fontFamily: "MADE_TOMMY_Medium",
+									fontWeight: "bold",
+									fontSize: "25px",
+								}}
+							>
+								Registrate
+							</Button>
+							{/* <TextField
+								style={{ width: "100%" }}
+								InputProps={{
+									style: {
+										backgroundColor: "black",
+										color: "white",
+									},
+								}}
+								InputLabelProps={{
+									style: { color: "#c2c2c2" },
+								}}
+								id="filled-select-currency"
+								select
+								label="Tienes tu propio vehiculo"
+								name="vehicle"
+								value={form.vehicle}
+								onChange={handleChange}
+								helperText="Tipo de Vehiculo"
+								variant="filled"
+							>
+								<MenuItem key="si" value="si">
+									Si
+								</MenuItem>
+								<MenuItem key="no" value="no">
+									No
+								</MenuItem>
+							</TextField> */}
+						</Grid>
+					</Grid>
+				</List>
+			</PersistentDrawerRight>
 			<Grid container className={landingPageCSS.firstBackground}>
 				<Grid item sm={12}>
 					<Grid className="row">
@@ -174,13 +309,14 @@ export const LandingPage = () => {
 										}}
 										id="filled-select-currency"
 										select
+										name="city"
 										label="Select"
-										value={currency}
+										value={form.city}
 										onChange={handleChange}
 										helperText="Ciudad"
 										variant="filled"
 									>
-										{currencies.map((option) => (
+										{cities.map((option) => (
 											<MenuItem
 												key={option.value}
 												value={option.value}
@@ -204,12 +340,13 @@ export const LandingPage = () => {
 										id="filled-select-currency"
 										select
 										label="Select"
-										value={currency}
+										name="vehicle"
+										value={form.vehicle}
 										onChange={handleChange}
 										helperText="Tipo de Vehiculo"
 										variant="filled"
 									>
-										{currencies.map((option) => (
+										{vehicles.map((option) => (
 											<MenuItem
 												key={option.value}
 												value={option.value}
@@ -282,9 +419,7 @@ export const LandingPage = () => {
 						>
 							<Grid
 								item
-								style={{
-									backgroundColor: "rgba(124, 166, 61, 50%)",
-								}}
+								className={landingPageCSS.mediumPhraseContainer}
 								md={7}
 							>
 								<Grid container justify="center">

@@ -19,7 +19,7 @@
 	color: #ffff;
 	font-size: 12vh;
 	transition: ease all 0.5s;
-	text-shadow: 5px 5px  13px rgba(0, 0, 0, 0.842);
+	text-shadow: 5px 5px 13px rgba(0, 0, 0, 0.842);
 }
 .mainTitleSecond {
 	font-family: "MADE-Evolve-Sans-Bold";
@@ -28,17 +28,21 @@
 	position: relative;
 	top: -100px;
 	transition: ease all 0.5s;
-	text-shadow: 5px 5px  13px rgba(0, 0, 0, 0.842);
+	text-shadow: 5px 5px 13px rgba(0, 0, 0, 0.842);
 }
 .mediumPhrase {
 	font-family: "MADE_TOMMY_Medium";
 	color: #ffffff;
 	font-size: 50px;
 	transition: ease all 0.5s;
-	
+}
+.mediumPhraseContainer {
+	background-color: rgba(124, 166, 61, 50%);
+	clip-path: polygon(0 0, 100% 0%, 86% 100%, 0% 100%);
+	transition: ease all 0.5s;
 }
 @media screen and (max-width: 800px) {
-	.registerCard{
+	.registerCard {
 		order: 2;
 	}
 	.mainTitleFirst {
@@ -48,7 +52,7 @@
 		font-family: "MADE-Evolve-Sans-Bold";
 		color: #7ca63d;
 		font-size: 25vw;
-		position: initial;
+		
 	}
 	.mediumPhrase {
 		font-size: 40px;
@@ -58,19 +62,20 @@
 	.mainTitleFirst {
 		font-size: 12vw;
 	}
+	.mediumPhraseContainer {
+		background-color: rgba(124, 166, 61, 50%);
+		clip-path: none;
+	}
 	.mainTitleSecond {
 		font-size: 16vw;
 		position: initial;
 	}
 }
 .registerCard {
-	
 	background-color: rgba(124, 166, 61, 50%);
 	border-radius: 1rem;
-	
 }
 .registerCardButton {
-	
 	bottom: 0px;
 	width: 100%;
 }
@@ -137,7 +142,7 @@
 	transition: ease all 0.5s;
 }
 @media screen and (max-width: 600px) {
-	.registerCard{
+	.registerCard {
 		order: 2;
 	}
 	.secondBackground {
