@@ -36,6 +36,10 @@ const currencies = [
 		value: "JPY",
 		label: "¥",
 	},
+	{
+		value: "null",
+		label: "Seleccione ciudad",
+	},
 ];
 const requirementsList = [
 	"Tener al menos 18 años y estar apto para trabajar",
@@ -91,7 +95,7 @@ export const LandingPage = () => {
 	const handleDrawerClose = () => {
 		setOpenDrawer(false);
 	};
-	const [currency, setCurrency] = React.useState("EUR");
+	const [currency, setCurrency] = React.useState("null");
 
 	const handleChange = (event) => {
 		setCurrency(event.target.value);
@@ -144,13 +148,13 @@ export const LandingPage = () => {
 							className={landingPageCSS.registerCard}
 						>
 							<Grid container justify="center">
-								<Grid item sm={11}>
+								<Grid item xs={10} sm={11}>
 									<Typography
 										style={{
 											fontFamily: "MADE_TOMMY_Medium",
 											color: "white",
 											fontSize: "40px",
-											paddingTop:'40px'
+											paddingTop: "40px",
 										}}
 									>
 										{" "}
@@ -158,14 +162,23 @@ export const LandingPage = () => {
 									</Typography>
 								</Grid>
 							</Grid>
-							<Grid container>
-								<Grid item>
-									<Select
-										labelId="demo-customized-select-label"
-										id="demo-customized-select"
-										value={"Algo"}
+							<Grid container justify="center">
+								<Grid item sm={11} xs={10} md={10}>
+									<TextField
+										style={{ width: "100%" }}
+										InputProps={{
+											style: {
+												backgroundColor: "black",
+												color: "white",
+											},
+										}}
+										id="filled-select-currency"
+										select
+										label="Select"
+										value={currency}
 										onChange={handleChange}
-										input={<BootstrapInput color="white" />}
+										helperText="Ciudad"
+										variant="filled"
 									>
 										{currencies.map((option) => (
 											<MenuItem
@@ -175,26 +188,37 @@ export const LandingPage = () => {
 												{option.label}
 											</MenuItem>
 										))}
-									</Select>
+									</TextField>
 								</Grid>
 							</Grid>
-							<Grid container>
-								<TextField
-									InputProps={{style:{backgroundColor:'white'}}}
-									id="filled-select-currency"
-									select
-									label="Select"
-									value={currency}
-									onChange={handleChange}
-									helperText="Ciudad"
-									variant="filled"
-								>
-									{currencies.map((option) => (
-										<MenuItem key={option.value} value={option.value}>
-											{option.label}
-										</MenuItem>
-									))}
-								</TextField>
+							<Grid container justify="center">
+								<Grid item sm={11} xs={10} md={10}>
+									<TextField
+										style={{ width: "100%" }}
+										InputProps={{
+											style: {
+												backgroundColor: "black",
+												color: "white",
+											},
+										}}
+										id="filled-select-currency"
+										select
+										label="Select"
+										value={currency}
+										onChange={handleChange}
+										helperText="Tipo de Vehiculo"
+										variant="filled"
+									>
+										{currencies.map((option) => (
+											<MenuItem
+												key={option.value}
+												value={option.value}
+											>
+												{option.label}
+											</MenuItem>
+										))}
+									</TextField>
+								</Grid>
 							</Grid>
 							<Button
 								className={landingPageCSS.registerCardButton}
@@ -204,6 +228,7 @@ export const LandingPage = () => {
 									fontWeight: "bold",
 									fontSize: "25px",
 								}}
+								onClick={handleDrawerOpen}
 							>
 								Registrate
 							</Button>
@@ -279,6 +304,7 @@ export const LandingPage = () => {
 													margin: "10px",
 													zIndex: 1,
 												}}
+												onClick={handleDrawerOpen}
 											>
 												{" "}
 												Registrate Ahora

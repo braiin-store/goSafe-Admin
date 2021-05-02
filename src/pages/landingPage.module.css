@@ -38,6 +38,9 @@
 	
 }
 @media screen and (max-width: 800px) {
+	.registerCard{
+		order: 2;
+	}
 	.mainTitleFirst {
 		font-size: 15vw;
 	}
@@ -64,6 +67,7 @@
 	
 	background-color: rgba(124, 166, 61, 50%);
 	border-radius: 1rem;
+	
 }
 .registerCardButton {
 	
@@ -133,11 +137,14 @@
 	transition: ease all 0.5s;
 }
 @media screen and (max-width: 600px) {
+	.registerCard{
+		order: 2;
+	}
 	.secondBackground {
 		height: 70vh;
 	}
 	.firstBackground {
-		height: 70vh;
+		height: 80%;
 	}
 	.thirdBackground {
 		height: 70vh;
