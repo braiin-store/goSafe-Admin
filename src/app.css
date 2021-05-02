@@ -45,3 +45,7 @@ body{
     font-family: 'MADE-Evolve-Sans-Bold';
     src: local('MADE-Evolve-Sans-Bold'),url('./assets/fonts/MADE-Evolve-Sans-Bold.otf') format('opentype');
 }
+@font-face {
+    font-family: 'MADE_TOMMY_Medium';
+    src: local('MADE_TOMMY_Medium'),url('./assets/fonts/MADE_TOMMY_Medium_PERSONAL_USE.ttf') format('truetype');
+}

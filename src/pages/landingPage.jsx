@@ -13,10 +13,11 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import backgroundURL from "../assets/images/firstBackground.png";
-import logoGoSafeHorizontalURL from "../assets/images/Logo_GoSafe_horizontal.png";
+import logoGoSafeByNURL from "../assets/images/logoGoSafeByN.png";
 import roundedRectangleURL from "../assets/images/rounded_rectangle.png";
 import background2URL from "../assets/images/secondBackground.png";
 import tickURL from "../assets/images/tick.png";
+import PersistentDrawerRight from "./drawerExample";
 import landingPageCSS from "./landingPage.module.css";
 const currencies = [
 	{
@@ -81,6 +82,15 @@ const BootstrapInput = withStyles((theme) => ({
 	},
 }))(InputBase);
 export const LandingPage = () => {
+	const [openDrawer, setOpenDrawer] = React.useState(false);
+
+	const handleDrawerOpen = () => {
+		setOpenDrawer(true);
+	};
+
+	const handleDrawerClose = () => {
+		setOpenDrawer(false);
+	};
 	const [currency, setCurrency] = React.useState("EUR");
 
 	const handleChange = (event) => {
@@ -88,9 +98,14 @@ export const LandingPage = () => {
 	};
 	return (
 		<div className="container">
-			<div className={"row " + landingPageCSS.firstBackground}>
-				<div className="col-12">
-					<div className="row">
+			<PersistentDrawerRight
+				handleDrawerOpen={handleDrawerOpen}
+				openDrawer={openDrawer}
+				handleDrawerClose={handleDrawerClose}
+			></PersistentDrawerRight>
+			<Grid container className={landingPageCSS.firstBackground}>
+				<Grid item sm={12}>
+					<Grid className="row">
 						<div className="md-col-12 center">
 							<div className={landingPageCSS.appBarFlexContainer}>
 								{/* <Grid container className={landingPageCSS.appBarColor}>
@@ -106,32 +121,42 @@ export const LandingPage = () => {
 										margin: "10px",
 										zIndex: 1,
 									}}
+									onClick={handleDrawerOpen}
 								>
 									{" "}
 									Registrate Ahora
 								</Button>
 							</div>
 						</div>
-					</div>
-					<div className="row justify-content-end"></div>
+					</Grid>
+
 					<Grid
 						container
 						alignItems="flex-end"
 						justify="space-evenly"
-						style={{ height: "400px" }}
+						style={{ height: "800px" }}
 					>
 						<Grid
 							item
 							xs={11}
 							sm={10}
-							md={2}
+							md={3}
 							className={landingPageCSS.registerCard}
 						>
-							<Grid container>
-								<Typography>
-									{" "}
-									Ingresa tu ciudad y tipo de vehiculo por favor
-								</Typography>
+							<Grid container justify="center">
+								<Grid item sm={11}>
+									<Typography
+										style={{
+											fontFamily: "MADE_TOMMY_Medium",
+											color: "white",
+											fontSize: "40px",
+											paddingTop:'40px'
+										}}
+									>
+										{" "}
+										Ingresa tu ciudad y tipo de vehiculo por favor.
+									</Typography>
+								</Grid>
 							</Grid>
 							<Grid container>
 								<Grid item>
@@ -155,6 +180,7 @@ export const LandingPage = () => {
 							</Grid>
 							<Grid container>
 								<TextField
+									InputProps={{style:{backgroundColor:'white'}}}
 									id="filled-select-currency"
 									select
 									label="Select"
@@ -170,8 +196,16 @@ export const LandingPage = () => {
 									))}
 								</TextField>
 							</Grid>
-							<Button className={landingPageCSS.registerCardButton}>
-								Registrarse
+							<Button
+								className={landingPageCSS.registerCardButton}
+								style={{
+									backgroundColor: "#537e14",
+									fontFamily: "MADE_TOMMY_Medium",
+									fontWeight: "bold",
+									fontSize: "25px",
+								}}
+							>
+								Registrate
 							</Button>
 						</Grid>
 
@@ -188,102 +222,145 @@ export const LandingPage = () => {
 							</Grid>
 						</Grid>
 						<Grid item xs={12}>
-							<Box m={10} />
+							<Box m={8} />
 						</Grid>
 					</Grid>
-				</div>
-				<div
-				// style={{
-				// 	backgroundImage: `url(${backgroundURL})`,
-				// 	backgroundSize: "cover",
-				// 	backgroundPosition: "center",
-				// 	height: "1081px",
-				// }}
-				>
-					<div className={"row " + landingPageCSS.secondBackground}>
-						<div className="col-12">
-							<div className={"row " + landingPageCSS.mixBlendedGreen} />
-							<div
-								className={"row " + landingPageCSS.containerBarWhiteL}
-							>
+				</Grid>
+			</Grid>
+			<div
+			// style={{
+			// 	backgroundImage: `url(${backgroundURL})`,
+			// 	backgroundSize: "cover",
+			// 	backgroundPosition: "center",
+			// 	height: "1081px",
+			// }}
+			>
+				<div className={"row " + landingPageCSS.secondBackground}>
+					<div className="col-12">
+						<div className={"row " + landingPageCSS.mixBlendedGreen} />
+						<div className={"row " + landingPageCSS.containerBarWhiteL}>
+							<Grid item md={3}>
 								<img
-									style={{ filter: "grayscale(100%)" }}
-									src={logoGoSafeHorizontalURL}
+									style={{
+										maxWidth: "100%",
+										height: "auto",
+									}}
+									src={logoGoSafeByNURL}
+									alt=""
 								/>
-							</div>
-							<div className="row"> 
-									<div className="col-12">
-									<label htmlFor=""> Si Tienes un auto en buen estado y quieres ganar dinero extra</label></div>		
-							</div>
+							</Grid>
 						</div>
-						<div className="col-12"></div>
+						<Grid
+							container
+							alignContent="flex-end"
+							className={landingPageCSS.gridMedium}
+						>
+							<Grid
+								item
+								style={{
+									backgroundColor: "rgba(124, 166, 61, 50%)",
+								}}
+								md={7}
+							>
+								<Grid container justify="center">
+									<Grid item sm={3}>
+										<label></label>{" "}
+									</Grid>
+									<Grid item xs={9} md={8}>
+										<label className={landingPageCSS.mediumPhrase}>
+											Si Tienes un auto en buen estado y quieres
+											ganar dinero extra
+										</label>{" "}
+										<Grid container justify="center">
+											<Button
+												style={{
+													position: "relative",
+													backgroundColor: "white",
+													margin: "10px",
+													zIndex: 1,
+												}}
+											>
+												{" "}
+												Registrate Ahora
+											</Button>
+										</Grid>
+									</Grid>
+								</Grid>
+							</Grid>
+						</Grid>
+					</div>
+					<div className="col-12"></div>
 
-						{/* <div style={{ backgroundImage: `url(${roundedRectangleURL})` }}>
+					{/* <div style={{ backgroundImage: `url(${roundedRectangleURL})` }}>
 						<label>
 							{
 								"Si tienes un auto en buen estado y quieres ganar dinero extra"
 							}
 						</label>
 					</div> */}
-					</div>
-					<Grid container style={{ textAlign: "center" }}>
-						<Grid item xs={12}>
-							<Box m={10} />
-						</Grid>
-						<Grid item xs={12}>
-							<Grid container justify="center">
-								<Grid item sm={1}>
-									<h1 htmlFor="">Algunos requisitos</h1>
-								</Grid>
+				</div>
+				<Grid container style={{ textAlign: "center" }}>
+					<Grid item xs={12}>
+						<Box m={10} />
+					</Grid>
+					<Grid item xs={12}>
+						<Grid container justify="center">
+							<Grid item sm={1}>
+								<h1 htmlFor="">Algunos requisitos</h1>
 							</Grid>
-						</Grid>
-						<Grid item xs={12}>
-							<Box m={10} />
-						</Grid>
-						<Grid item xs={12}>
-							<Grid container justify="center">
-								<Grid item sm={10}>
-									<Grid container justify="space-around">
-										{requirementsList.map((item) => (
-											<Grid item xs={9} sm={2}>
-												<Grid container justify="center">
-													<Grid item xs={4} md={4}>
-														<img
-															style={{
-																maxWidth: "100%",
-																height: "auto",
-															}}
-															src={tickURL}
-															alt=""
-														/>
-													</Grid>
-												</Grid>
-												<Grid container justify="center">
-													<Grid item xs={8} md={8}>
-														<label htmlFor="">{item}</label>
-													</Grid>
-												</Grid>
-											</Grid>
-										))}
-									</Grid>
-								</Grid>
-							</Grid>
-						</Grid>
-						<Grid item xs={12}>
-							<Box m={10} />
 						</Grid>
 					</Grid>
-					<div className={landingPageCSS.thirdBackground}>
-						<div className={landingPageCSS.mixBlendedGreen} />
-						<div className={landingPageCSS.containerBarWhiteR}>
+					<Grid item xs={12}>
+						<Box m={10} />
+					</Grid>
+					<Grid item xs={12}>
+						<Grid container justify="center">
+							<Grid item sm={10}>
+								<Grid container justify="space-around">
+									{requirementsList.map((item) => (
+										<Grid item xs={9} sm={2}>
+											<Grid container justify="center">
+												<Grid item xs={4} md={4}>
+													<img
+														style={{
+															maxWidth: "100%",
+															height: "auto",
+														}}
+														src={tickURL}
+														alt=""
+													/>
+												</Grid>
+											</Grid>
+											<Grid container justify="center">
+												<Grid item xs={8} md={8}>
+													<label htmlFor="">{item}</label>
+												</Grid>
+											</Grid>
+										</Grid>
+									))}
+								</Grid>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid item xs={12}>
+						<Box m={10} />
+					</Grid>
+				</Grid>
+				<Grid className={landingPageCSS.thirdBackground}>
+					<div className={landingPageCSS.mixBlendedGreen} />
+					<div className={landingPageCSS.containerBarWhiteR}>
+						<Grid item md={3}>
 							<img
-								style={{ filter: "grayscale(100%)" }}
-								src={logoGoSafeHorizontalURL}
+								style={{
+									maxWidth: "100%",
+									height: "auto",
+								}}
+								src={logoGoSafeByNURL}
 								alt=""
 							/>
-						</div>
+						</Grid>
 					</div>
-				</div>
+				</Grid>
 			</div>
 		</div>
 	);

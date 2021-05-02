@@ -36,6 +36,9 @@ const App = () => {
 			<ThemeProvider theme={theme}>
 				<BrowserRouter>
 					<Switch>
+						{/* <Route path="/">
+							<Redirect to="/welcome" />
+						</Route> */}
 						<Route path="/welcome">
 							<LandingPage />
 						</Route>
@@ -56,9 +59,6 @@ const App = () => {
 								<Dashboard child={<ConductorPage />} />
 							</AuthRoute>
 						</SuscriptionContext.Provider>
-						<Route path="/">
-							<Redirect to="/welcome" />
-						</Route>
 					</Switch>
 				</BrowserRouter>
 			</ThemeProvider>
